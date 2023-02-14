@@ -2,6 +2,8 @@ const bodyParser = require("body-parser");
 const express = require("express");
 const path = require("path");
 
+const errorController= require('./controllers/error')
+
 const app = express();
 
 app.set("view engine", "ejs");
@@ -16,11 +18,8 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(shopRoutes);
 
-app.use("/admin", adminRoutes.routes);
+app.use("/admin", adminRoutes);
 
-app.use((req, res, next) => {
-  // res.status(404).sendFile(path.join(rootDir, 'views', '404.html'))
-  res.status(404).render("404", { pageTitle: "Error" });
-});
+app.use(errorController.get404);
 
 app.listen(3000);
