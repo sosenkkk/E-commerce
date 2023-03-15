@@ -7,6 +7,7 @@ const errorController = require("./controllers/error");
 const db = require("./util/database");
 
 const app = express();
+const mongoConnect= require('./util/database').mongoConnect;
 
 app.set("view engine", "ejs");
 app.set("views", "views");
@@ -22,4 +23,6 @@ app.use(shopRoutes);
 
 app.use(errorController.get404);
 
-app.listen(3000);
+mongoConnect(()=>{
+    app.listen(3000);
+})
