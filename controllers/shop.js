@@ -4,7 +4,6 @@ const Order = require("../models/order");
 exports.getProducts = (req, res, next) => {
   Product.find()
     .then((products) => {
-      console.log(products);
       res.render("shop/product-list", {
         prods: products,
         pageTitle: "All Products",
@@ -34,13 +33,10 @@ exports.getProduct = (req, res, next) => {
 exports.getIndex = (req, res, next) => {
   Product.find()
     .then((products) => {
-      console.log(products);
       res.render("shop/index", {
         prods: products,
         pageTitle: "All Products",
         path: "/",
-        isAuthenticated: req.session.isLoggedIn,
-
       });
     })
     .catch((err) => console.log(err));
@@ -88,7 +84,7 @@ exports.postCart = (req, res, next) => {
 };
 exports.postCartDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
-  console.log(prodId);
+ 
   req.user
     .removeFromCart(prodId)
     .then((result) => {
@@ -134,7 +130,7 @@ exports.postOrder = (req, res, next) => {
       });
       const order = new Order({
         user: {
-          name: req.user.name,
+          email: req.user.email,
           userId: req.user,
         },
         products: products,

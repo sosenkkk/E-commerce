@@ -2,6 +2,7 @@ const path = require("path");
 
 const express = require("express");
 const bodyParser = require("body-parser");
+const csrf= require('csurf');
 
 const errorController = require("./controllers/error");
 // const db = require("./util/database");
@@ -29,6 +30,7 @@ const { collection } = require("./models/user");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
+
 app.use(
   session({
     secret: "my secret",
@@ -37,6 +39,9 @@ app.use(
     store: store,
   })
 );
+
+const csrfProtection= csrf();
+
 
 app.use((req, res, next)=>{
   if(!req.session.user){
@@ -51,6 +56,12 @@ app.use((req, res, next)=>{
       console.log(err);
     });
 });
+app.use(csrfProtection);
+app.use((req, res, next)=>{
+  res.locals.isAuthenticated = req.session.isLoggedIn;
+  res.locals.csrfToken = req.csrfToken();
+  next();
+})
 
 app.use("/admin", adminRoutes);
 app.use(shopRoutes);
@@ -67,18 +78,7 @@ mongoose
     "mongodb+srv://sosenkkk:sosenk@cluster0.rfcsb3n.mongodb.net/shop?retryWrites=true&w=majority"
   )
   .then((result) => {
-    User.findOne().then((user) => {
-      if (!user) {
-        const user = new User({
-          name: "Sosenk",
-          email: "sosenk@gmail.com",
-          cart: {
-            items: [],
-          },
-        });
-        user.save();
-      }
-    });
+    
 
     app.listen(3000);
   })
