@@ -70,10 +70,6 @@ app.use(authRoutes);
 
 app.use(errorController.get404);
 
-// mongoConnect(() => {
-//   app.listen(3000);
-// });
-
 mongoose
   .connect(
     "mongodb+srv://sosenkkk:sosenk@cluster0.rfcsb3n.mongodb.net/shop?retryWrites=true&w=majority"

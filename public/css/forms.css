@@ -28,3 +28,8 @@
   margin: auto;
   display: block;
 }
+
+.form-control input.invalid{
+  border-color: red;
+  background-color: rgb(255, 211, 211);
+}
