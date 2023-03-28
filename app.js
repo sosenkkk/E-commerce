@@ -3,7 +3,7 @@ const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const csrf= require('csurf');
-
+const flash= require('connect-flash')
 const errorController = require("./controllers/error");
 // const db = require("./util/database");
 
@@ -41,7 +41,9 @@ app.use(
 );
 
 const csrfProtection= csrf();
+app.use(csrfProtection);
 
+app.use(flash());
 
 app.use((req, res, next)=>{
   if(!req.session.user){
@@ -56,7 +58,6 @@ app.use((req, res, next)=>{
       console.log(err);
     });
 });
-app.use(csrfProtection);
 app.use((req, res, next)=>{
   res.locals.isAuthenticated = req.session.isLoggedIn;
   res.locals.csrfToken = req.csrfToken();
