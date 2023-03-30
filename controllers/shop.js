@@ -5,12 +5,28 @@ const path = require("path");
 const PDFDocument = require("pdfkit");
 
 exports.getProducts = (req, res, next) => {
+  const page = +req.query.page || 1;
+  let totalItems;
   Product.find()
+    .countDocuments()
+    .then((numProducts) => {
+      totalItems= numProducts
+      return Product.find()
+        .skip((page - 1) * itemsPerPage)
+        .limit(itemsPerPage);
+    })
     .then((products) => {
       res.render("shop/product-list", {
         prods: products,
         pageTitle: "All Products",
         path: "/products",
+        currentPage:+page,
+        hasNextPage: itemsPerPage*page < totalItems,
+        hasPreviousPage: page>1,
+        nextPage: +page+1,
+        previousPage: +page-1,
+        lastPage: Math.ceil(totalItems/itemsPerPage)
+
       });
     })
     .catch((err) => console.log(err));
@@ -33,13 +49,30 @@ exports.getProduct = (req, res, next) => {
     });
 };
 
+const itemsPerPage = 1;
 exports.getIndex = (req, res, next) => {
+  const page = +req.query.page || 1;
+  let totalItems;
   Product.find()
+    .countDocuments()
+    .then((numProducts) => {
+      totalItems= numProducts
+      return Product.find()
+        .skip((page - 1) * itemsPerPage)
+        .limit(itemsPerPage);
+    })
     .then((products) => {
       res.render("shop/index", {
         prods: products,
         pageTitle: "All Products",
         path: "/",
+        currentPage:+page,
+        hasNextPage: itemsPerPage*page < totalItems,
+        hasPreviousPage: page>1,
+        nextPage: +page+1,
+        previousPage: +page-1,
+        lastPage: Math.ceil(totalItems/itemsPerPage)
+
       });
     })
     .catch((err) => {
@@ -166,20 +199,22 @@ exports.getInvoice = (req, res, next) => {
         underline: true,
       });
       pdfDoc.text("----------------------------");
-      let total= 0;
+      let total = 0;
       order.products.forEach((prod) => {
-        total= total + prod.product.price*prod.quantity;
+        total = total + prod.product.price * prod.quantity;
 
-        pdfDoc.fontSize(14).text(
-          prod.product.title +
-            " - " +
-            prod.quantity +
-            " x " +
-            " $ " +
-            prod.product.price
-        );
+        pdfDoc
+          .fontSize(14)
+          .text(
+            prod.product.title +
+              " - " +
+              prod.quantity +
+              " x " +
+              " $ " +
+              prod.product.price
+          );
       });
-      pdfDoc.text('Total Price :'+total);
+      pdfDoc.text("Total Price :" + total);
       pdfDoc.text("----------------------------");
       pdfDoc.end();
     })

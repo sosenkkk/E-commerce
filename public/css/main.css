@@ -215,7 +215,7 @@ form {
   }
 } */
 
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,700");
 
 * {
   box-sizing: border-box;
@@ -224,7 +224,7 @@ form {
 body {
   padding: 0;
   margin: 0;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
 }
 
 main {
@@ -420,7 +420,6 @@ form {
   margin: 0 0.25rem;
 }
 
-
 .btn {
   display: inline-block;
   padding: 0.25rem 1rem;
@@ -439,7 +438,6 @@ form {
   color: white;
 }
 
-
 .btn.danger {
   color: red;
   border-color: red;
@@ -451,7 +449,7 @@ form {
   color: white;
 }
 
-.user-message{
+.user-message {
   margin: auto;
   width: 90%;
   border: 1px solid rgb(104, 104, 220);
@@ -461,7 +459,26 @@ form {
   background: rgb(159, 207, 255);
 }
 
-.user-message--error{
+.pagination {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.pagination a {
+  text-decoration: none;
+  color: #5b0069;
+  border-bottom: 1px solid purple;
+  padding: 0.5rem;
+}
+
+.pagination a:hover,
+.pagination a:active,
+.pagination a.active {
+  background-color: #640069;
+  color: rgb(255, 255, 255);
+}
+
+.user-message--error {
   background: rgb(229, 112, 112);
   border-color: red;
 }
@@ -475,9 +492,7 @@ form {
     display: none;
   }
 
-.user-message{
-  width: 30rem;
+  .user-message {
+    width: 30rem;
+  }
 }
-
-}
-
