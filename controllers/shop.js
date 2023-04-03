@@ -84,7 +84,6 @@ exports.getIndex = (req, res, next) => {
 
 exports.getCart = (req, res, next) => {
   req.user.populate("cart.items.productId").then((user) => {
-    // console.log(user.cart.items);
     const products = user.cart.items;
     res.render("shop/cart", {
       path: "/cart",
@@ -92,6 +91,8 @@ exports.getCart = (req, res, next) => {
 
       products: products,
     });
+  }).catch(err=>{
+    next(err);
   });
 };
 
@@ -138,9 +139,20 @@ exports.getOrders = (req, res, next) => {
 };
 
 exports.getCheckout = (req, res, next) => {
-  res.render("shop/checkout", {
-    path: "/checkout",
-    pageTitle: "Checkout",
+  req.user.populate("cart.items.productId").then((user) => {
+    const products = user.cart.items;
+    let totalPrice=0;
+    products.forEach(p=>{
+      totalPrice+= p.productId.price * p.quantity
+    })
+    res.render("shop/checkout", {
+      path: "/checkout",
+      pageTitle: "Checkout",
+      products: products,
+      totalSum: totalPrice
+    });
+  }).catch(err=>{
+    next(err);
   });
 };
 
