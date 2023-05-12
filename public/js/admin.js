@@ -1,3 +1,17 @@
+const butt = document.getElementsByClassName("deleteButton");
+
+
+if(butt){
+  for(i=0; i< butt.length; i++){
+    const button = butt[i];
+    console.log(button)
+    button.addEventListener('click', ()=>{
+      deleteProduct(button)
+    })
+  }
+}
+
+
 const deleteProduct = (btn) => {
   const prodId = btn.parentNode.querySelector("[name=productId]").value;
   const csrf = btn.parentNode.querySelector("[name=_csrf]").value;
