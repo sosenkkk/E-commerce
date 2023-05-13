@@ -4,9 +4,14 @@ const fs = require("fs");
 const path = require("path");
 const PDFDocument = require("pdfkit");
 
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 exports.getProducts = (req, res, next) => {
   const page = +req.query.page || 1;
   let totalItems;
+  let price;
   Product.find()
     .countDocuments()
     .then((numProducts) => {
@@ -16,6 +21,10 @@ exports.getProducts = (req, res, next) => {
         .limit(itemsPerPage);
     })
     .then((products) => {
+      products.map(product=>{
+        price = numberWithCommas(product.price)
+        product['pricewithC'] = price
+      })
       res.render("shop/product-list", {
         prods: products,
         pageTitle: "All Products",
@@ -36,6 +45,9 @@ exports.getProduct = (req, res, next) => {
   const prodId = req.params.productId;
   Product.findById(prodId)
     .then((product) => {
+      
+        product['pricewithC'] = numberWithCommas(product.price)
+      
       res.render("shop/product-detail", {
         product: product,
         pageTitle: product.title,
@@ -49,10 +61,11 @@ exports.getProduct = (req, res, next) => {
     });
 };
 
-const itemsPerPage = 1;
+const itemsPerPage = 2;
 exports.getIndex = (req, res, next) => {
   const page = +req.query.page || 1;
   let totalItems;
+  let price;
   Product.find()
     .countDocuments()
     .then((numProducts) => {
@@ -62,6 +75,10 @@ exports.getIndex = (req, res, next) => {
         .limit(itemsPerPage);
     })
     .then((products) => {
+      products.map(product=>{
+        price = numberWithCommas(product.price)
+        product['pricewithC'] = price
+      })
       res.render("shop/index", {
         prods: products,
         pageTitle: "All Products",
@@ -88,7 +105,6 @@ exports.getCart = (req, res, next) => {
     res.render("shop/cart", {
       path: "/cart",
       pageTitle: "Your Cart",
-
       products: products,
     });
   }).catch(err=>{
@@ -222,29 +238,15 @@ exports.getInvoice = (req, res, next) => {
               " - " +
               prod.quantity +
               " x " +
-              " $ " +
+              +
               prod.product.price
           );
       });
-      pdfDoc.text("Total Price :" + total);
+      pdfDoc.text("Total Price : " + total+ " rupees");
       pdfDoc.text("----------------------------");
       pdfDoc.end();
     })
     .catch((err) => next(err));
 };
 
-// fs.readFile(invoicePath, (err, data) => {
-//   if (err) {
-//     return next(err);
-//   }
-//   res.setHeader("Content-Type", "application/pdf");
-//   res.setHeader(
-//     "Content-Disposition",
-//     'attachment; filename="' + invoiceName + '"'
-//   );
-//   res.send(data);
-//   res.end();
-// });
-// const file = fs.createReadStream(invoicePath);
 
-// file.pipe(res);

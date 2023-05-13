@@ -7,12 +7,11 @@ const csrf = require("csurf");
 const fs = require("fs");
 const flash = require("connect-flash");
 const errorController = require("./controllers/error");
-const multer = require("multer");
 const helmet = require("helmet");
 const compression = require("compression");
 const morgan = require("morgan");
 const app = express();
-
+const fileUpload = require("express-fileupload")
 const User = require("./models/user");
 const mongoose = require("mongoose");
 const session = require("express-session");
@@ -29,26 +28,30 @@ const csrfProtection = csrf();
 const privateKey = fs.readFileSync('server.key');
 const certificate= fs.readFileSync('server.cert');
 
-const fileStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "images");
-  },
-  filename: (req, file, cb) => {
-    cb(null, new Date().getTime() + "-" + file.originalname);
-  },
-});
+// const fileStorage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "images");
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, new Date().getTime() + "-" + file.originalname);
+//   },
+// });
 
-const fileFilter = (req, file, cb) => {
-  if (
-    file.mimetype === "image/png" ||
-    file.mimetype === "image/jpg" ||
-    file.mimetype === "image/jpeg"
-  ) {
-    cb(null, true);
-  } else {
-    cb(null, false);
-  }
-};
+app.use(fileUpload({
+  useTempFiles:true
+}))
+
+// const fileFilter = (req, file, cb) => {
+//   if (
+//     file.mimetype === "image/png" ||
+//     file.mimetype === "image/jpg" ||
+//     file.mimetype === "image/jpeg"
+//   ) {
+//     cb(null, true);
+//   } else {
+//     cb(null, false);
+//   }
+// };
 
 app.set("view engine", "ejs");
 app.set("views", "views");
@@ -63,13 +66,19 @@ const accessLogStream = fs.createWriteStream(
 );
 
 app.use(helmet());
+app.use(helmet.contentSecurityPolicy({
+  useDefaults: true,
+    directives: {
+      "img-src": ["'self'", "https: data:"]
+    }
+}))
 app.use(compression());
 app.use(morgan("combined", {stream: accessLogStream}));
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(
-  multer({ storage: fileStorage, fileFilter: fileFilter }).single("image")
-);
+// app.use(
+//   multer({ storage: fileStorage, fileFilter: fileFilter }).single("image")
+// );
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/images", express.static(path.join(__dirname, "images")));
 

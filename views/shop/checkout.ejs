@@ -16,13 +16,16 @@
                     <% }) %>
                 </ul>
                 <div class="centered">
-                    <h2> Total: <%= totalSum %></h2>
+                    <h2> Total: ₹<%= totalSum %></h2>
                 </div>
-                <form action="order" method="post">
-                <button type="submit">Order Now</button>
-                <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-
-                </form>
+                <div class="centered">
+                    <form action="order" method="post">
+                        <button type="submit" class="btn ">Order Now</button>
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+        
+                        </form>
+                </div>
+                
                 <% } %>
         </main>
         <%- include('../includes/end.ejs') %>
