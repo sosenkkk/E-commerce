@@ -25,33 +25,14 @@ const store = new MongoDBStore({
 });
 
 const csrfProtection = csrf();
-const privateKey = fs.readFileSync('server.key');
-const certificate= fs.readFileSync('server.cert');
 
-// const fileStorage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, "images");
-//   },
-//   filename: (req, file, cb) => {
-//     cb(null, new Date().getTime() + "-" + file.originalname);
-//   },
-// });
+
 
 app.use(fileUpload({
   useTempFiles:true
 }))
 
-// const fileFilter = (req, file, cb) => {
-//   if (
-//     file.mimetype === "image/png" ||
-//     file.mimetype === "image/jpg" ||
-//     file.mimetype === "image/jpeg"
-//   ) {
-//     cb(null, true);
-//   } else {
-//     cb(null, false);
-//   }
-// };
+
 
 app.set("view engine", "ejs");
 app.set("views", "views");
