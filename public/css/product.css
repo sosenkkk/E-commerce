@@ -1,8 +1,14 @@
 .product-form {
-    width: 20rem;
+    width: 30rem;
     max-width: 90%;
     margin: auto;
     display: block;
+    max-width: 370px;
+    width: 100%;
+    padding: 20px 30px;
+    background: #f0f1f3;
+    border-radius: 10px;
+    box-shadow: -3px -3px 7px #ffffff73, 2px 2px 5px rgba(94, 104, 121, 0.288);
 }
 
 .product-item {

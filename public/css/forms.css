@@ -1,35 +1,129 @@
-.form-control {
-  margin: 1rem 0;
+.form_container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.form-control label,
+.form-control {
+  
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+
 .form-control input,
 .form-control textarea {
   display: block;
   width: 100%;
-  margin-bottom: 0.25rem;
+  margin-bottom: 1.2rem;
+}
+
+.form-control label{
+  position: relative;
+  left: 6px;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #595959;
 }
 
 .form-control input,
 .form-control textarea {
-  border: 1px solid #a1a1a1;
-  font: inherit;
-  border-radius: 2px;
+  height: 40px;
+  width: 100%;
+  padding-left: 1em;
+  outline: none;
+  border: none;
+  font-size: 18px;
+  background: #dde1e7;
+  color: #595959;
+  border-radius: 25px;
+  box-shadow: inset 2px 2px 5px #babecc, inset -5px -5px 10px #ffffff73;
 }
 
 .form-control input:focus,
 .form-control textarea:focus {
-  outline-color: #00695c;
+  box-shadow: inset 1px 1px 2px #babecc, inset -1px -1px 2px #ffffff73;
 }
 
-.login-form{
+.login-form {
   width: 20rem;
   max-width: 90%;
   margin: auto;
   display: block;
+  max-width: 370px;
+  width: 100%;
+  padding: 20px 30px;
+  background: #e2e6ec;
+  border-radius: 10px;
+  box-shadow: -3px -3px 7px #ffffff73, 2px 2px 5px rgba(94, 104, 121, 0.288);
 }
 
-.form-control input.invalid{
-  border-color: red;
+.form-control input.invalid {
   background-color: rgb(255, 211, 211);
+}
+
+.text {
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 35px;
+  color: #595959;
+}
+
+.button {
+  margin: 15px 0;
+  width: 100%;
+  height: 50px;
+  font-size: 18px;
+  line-height: 50px;
+  font-weight: 600;
+  background: #dde1e7;
+  border-radius: 25px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: #595959;
+  box-shadow: 2px 2px 5px #BABECC,
+             -5px -5px 10px #ffffff73;
+}
+
+.button:focus {
+  color: #3498db;
+  box-shadow: inset 2px 2px 5px #BABECC,
+             inset -5px -5px 10px #ffffff73;
+}
+
+
+.forgot-pass {
+  text-align: left;
+  margin: 10px 0 10px 5px;
+}
+
+.forgot-pass a {
+  font-size: 15px;
+  color: #666666;
+  text-decoration: none;
+}
+
+.forgot-pass:hover a {
+  text-decoration: underline;
+}
+
+
+
+.sign-up {
+  margin: 10px 0 10px 5px;
+  color: #595959;
+  font-size: 15px;
+}
+
+.sign-up a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.sign-up a:hover {
+  text-decoration: underline;
 }

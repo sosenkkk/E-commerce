@@ -5,11 +5,12 @@
     <body>
         <%- include('../includes/navigation.ejs') %>
 
-            <main>
-                <% if(errorMessage){ %>
-                <div class="user-message user-message--error"><%= errorMessage %></div>
-                <% } %>
+            <main class="form_container">
                 <form class="login-form" action="/reset" method="POST">
+                    <% if(errorMessage){ %>
+                        <div class="user-message user-message--error"><%= errorMessage %></div>
+                        <% } %>
+                    <div class="text">Reset Password</div>
                     <div class="form-control">
                         <label for="email">E-mail</label>
                         <input type="email" name="email" id="email" >
@@ -17,9 +18,13 @@
                    
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
                     
-                    <button class="btn" type="submit">
+                    <button class="button" type="submit">
                         Reset Password
                     </button>
+                    <div class="sign-up">
+                        Not a member?
+                        <a href="/signup">signup now</a>
+                     </div>
                 </form>
             </main>
             <%- include('../includes/end.ejs') %>

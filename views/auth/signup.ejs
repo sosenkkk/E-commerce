@@ -6,11 +6,13 @@
 <body>
    <%- include('../includes/navigation.ejs') %>
 
-    <main>
-        <% if(errorMessage){ %>
-            <div class="user-message user-message--error"><%= errorMessage %></div>
-            <% } %>
+    <main class="form_container">
+       
         <form class="login-form" action="/signup" method="POST" novalidate>
+            <% if(errorMessage){ %>
+                <div class="user-message user-message--error"><%= errorMessage %></div>
+                <% } %>
+            <div class="text">Sign Up</div>
             <div class="form-control">
                 <label for="email">E-Mail</label>
                 <input class="<%= validationErrors.find(e=> e.param === 'email')? 'invalid': '' %>"
@@ -28,7 +30,11 @@
             </div>
             <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
 
-            <button class="btn" type="submit">Sign Up</button>
+            <button class="button" type="submit">Sign Up</button>
+            <div class="sign-up">
+                Already a member?
+                <a href="/login">Sign In</a>
+             </div>
         </form>
     </main>
 <%- include('../includes/end.ejs') %>
